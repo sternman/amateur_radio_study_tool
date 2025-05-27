@@ -10,6 +10,17 @@ from functools import cache
 
 st.set_page_config(layout="wide", page_title="Amateur Radio Study Guide", page_icon="📡")
 
+# Hide just the pages section from sidebar while keeping main navigation
+st.markdown("""
+<style>
+    /* Hide pages from sidebar */
+    [data-testid="stSidebarNav"] {display: none;}
+    
+    /* Keep the main sidebar visible */
+    [data-testid="stSidebar"] {display: block;}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Basic Amateur Radio Study Guide")
 
 @cache
