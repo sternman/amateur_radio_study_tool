@@ -48,6 +48,14 @@ To launch the app
 
 ```streamlit run test.py```
 
+
+App is also deployed to (streamlit)[https://amatuerradiostudy.streamlit.app/]
+
+The app will be deployed on commit to the master branch.
+
+The repo needs to be fixed to accommodate more contributers.
+
+
 > No license is available
 
 
