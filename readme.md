@@ -49,7 +49,7 @@ To launch the app
 ```streamlit run test.py```
 
 
-App is also deployed to (streamlit)[https://amatuerradiostudy.streamlit.app/]
+App is also deployed to [streamlit](https://amatuerradiostudy.streamlit.app/)
 
 The app will be deployed on commit to the master branch.
 
