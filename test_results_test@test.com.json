@@ -805,5 +805,812 @@
         "is_correct": false
       }
     ]
+  },
+  {
+    "timestamp": "2025-05-27T00:37:51.730235",
+    "score": 28,
+    "total": 100,
+    "answers": [
+      {
+        "section": "B-003",
+        "group": "2",
+        "question": "In a frequency modulation transmitter, the microphone is connected to the:",
+        "selected": "speech amplifier",
+        "correct": "speech amplifier",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "2",
+        "question": "The Amateur Radio Operator Certificate:",
+        "selected": "must be retained at the station",
+        "correct": "must be retained at the station",
+        "is_correct": true
+      },
+      {
+        "section": "B-004",
+        "group": "5",
+        "question": "In a vacuum tube, the electrode that is usually a cylinder of wire mesh is the _______.",
+        "selected": "plate",
+        "correct": "grid",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "8",
+        "question": "In order to install any radio apparatus, to be used specifically for receiving and automatically retransmitting radiotelephone communications within the same frequency band, a radio amateur must hold an Amateur Radio Operator Certificate, with a minimum of:",
+        "selected": "Basic with Honours qualification",
+        "correct": "Basic and Advanced qualifications",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "2",
+        "question": "What is the Standard International Phonetic for the letter I?",
+        "selected": "India",
+        "correct": "India",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "10",
+        "question": "Which of these amateur bands may be heavily occupied by licence exempt devices?",
+        "selected": "902 to 928 MHz",
+        "correct": "902 to 928 MHz",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "17",
+        "question": "The operator of an amateur station, who is the holder of a Basic Qualification, shall ensure that the station power, when expressed as RF output power measured across an impedance matched load, does not exceed:",
+        "selected": "2500 watts peak power",
+        "correct": "560 watts peak-envelope power, for transmitters producing any type of single sideband emission",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "12",
+        "question": "In a typical single-sideband phone transmitter, what circuit processes signals from the balanced modulator and sends signals to the mixer?",
+        "selected": "IF amplifier",
+        "correct": "Filter",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "7",
+        "question": "Who is calling me is denoted by the \"Q signal\":",
+        "selected": "QRM?",
+        "correct": "QRZ?",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "1",
+        "question": "What is the main purpose of a repeater?",
+        "selected": "To link amateur stations with the telephone system",
+        "correct": "To increase the range of portable and mobile stations",
+        "is_correct": false
+      },
+      {
+        "section": "B-004",
+        "group": "1",
+        "question": "The increase in signal level by an amplifier is called:",
+        "selected": "modulation",
+        "correct": "gain",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "24",
+        "question": "Which statement is correct?",
+        "selected": "Safety Code 6 regulates the operation of receivers only",
+        "correct": "Safety Code 6 sets limits for RF exposure from all radio transmitters regardless of power output",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "25",
+        "question": "According to EMCAB-2 which of the following types of equipment is not included in the list of field strength criteria for resolution of immunity complaints?",
+        "selected": "Broadcast receivers",
+        "correct": "Broadcast transmitters",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "7",
+        "question": "Which ionospheric region most affects sky-wave propagation on the 6 metre band?",
+        "selected": "The F2 region",
+        "correct": "The E region",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "5",
+        "question": "How should you answer a routine Morse code \"CQ\" call?",
+        "selected": "Send your call sign four times",
+        "correct": "Send the other station's call sign twice, followed by \"DE\", followed by your call sign twice",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "4",
+        "question": "If you are the net control station of a daily HF net, what should you do if the frequency on which you normally meet is in use just before the net begins?",
+        "selected": "Call and ask occupants to relinquish the frequency for the scheduled net operations, but if they are not agreeable, conduct the net on a frequency 3 to 5 kHz away from the regular net frequency",
+        "correct": "Call and ask occupants to relinquish the frequency for the scheduled net operations, but if they are not agreeable, conduct the net on a frequency 3 to 5 kHz away from the regular net frequency",
+        "is_correct": true
+      },
+      {
+        "section": "B-005",
+        "group": "7",
+        "question": "Current in an AC circuit goes through a complete cycle in 0.1 second. This means the AC has a frequency of:",
+        "selected": "1000 Hz",
+        "correct": "10 Hz",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "2",
+        "question": "Name three good electrical conductors.",
+        "selected": "Copper, gold, mica",
+        "correct": "Gold, silver, aluminum",
+        "is_correct": false
+      },
+      {
+        "section": "B-008",
+        "group": "1",
+        "question": "How can intermodulation be reduced?",
+        "selected": "By increasing the receiver RF gain while decreasing the AF gain",
+        "correct": "By installing a suitable filter at the receiver",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "11",
+        "question": "If you hear an unanswered distress signal on an amateur band where you do not have privileges to communicate:",
+        "selected": "you may offer assistance using international Morse code only",
+        "correct": "you should offer assistance",
+        "is_correct": false
+      },
+      {
+        "section": "B-008",
+        "group": "2",
+        "question": "What sound is heard from a public-address system if audio rectification of a nearby single-sideband phone transmission occurs?",
+        "selected": "Distorted speech from the transmitter's signals",
+        "correct": "Distorted speech from the transmitter's signals",
+        "is_correct": true
+      },
+      {
+        "section": "B-005",
+        "group": "3",
+        "question": "Which electrical circuit draws too much current?",
+        "selected": "A closed circuit",
+        "correct": "A short circuit",
+        "is_correct": false
+      },
+      {
+        "section": "B-004",
+        "group": "6",
+        "question": "You need a current limiting resistor for a light-emitting diode (LED). The actual resistance is not critical at all. Out of the list below, which resistor tolerance would you select?",
+        "selected": "0.2",
+        "correct": "0.2",
+        "is_correct": true
+      },
+      {
+        "section": "B-006",
+        "group": "2",
+        "question": "What kind of antenna transmission line can be constructed using two conductors which are maintained a uniform distance apart using insulated spreaders?",
+        "selected": "600 ohm open wire line",
+        "correct": "600 ohm open wire line",
+        "is_correct": true
+      },
+      {
+        "section": "B-004",
+        "group": "2",
+        "question": "What semiconductor device glows different colours, depending upon its chemical composition?",
+        "selected": "A light-emitting diode",
+        "correct": "A light-emitting diode",
+        "is_correct": true
+      },
+      {
+        "section": "B-007",
+        "group": "6",
+        "question": "What causes the maximum usable frequency to vary?",
+        "selected": "The speed of the winds in the upper atmosphere",
+        "correct": "The amount of radiation received from the sun, mainly ultraviolet",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "13",
+        "question": "The cubical \"quad\" or \"quad\" antenna consists of two or more square loops of wire. The driven element has an approximate overall length of:",
+        "selected": "two wavelengths",
+        "correct": "one wavelength",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "13",
+        "question": "When may an amateur transmit unidentified communications?",
+        "selected": "Only if it does not interfere with others",
+        "correct": "Never, except to control a model craft",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "15",
+        "question": "What does \"network\" mean in packet radio?",
+        "selected": "The programming in a terminal-node controller that rejects other callers if a station is already connected",
+        "correct": "A way of connecting packet-radio stations so data can be sent over long distances",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "9",
+        "question": "If you transmit from another amateur's station, who is responsible for its proper operation?",
+        "selected": "Both of you",
+        "correct": "Both of you",
+        "is_correct": true
+      },
+      {
+        "section": "B-003",
+        "group": "21",
+        "question": "For best RF safety, where should the ends and center of a dipole antenna be located?",
+        "selected": "As close to the transmitter as possible so RF energy will be concentrated near the transmitter",
+        "correct": "As high as possible to prevent people from coming in contact with the antenna",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "12",
+        "question": "Radiocommunications transmitted by stations other than a broadcasting station may be divulged or used:",
+        "selected": "if transmitted in English or French",
+        "correct": "if it is transmitted by an amateur station",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "3",
+        "question": "If the height of the reflecting layer of the ionosphere increases, the skip distance of a high frequency (HF) transmission:",
+        "selected": "decreases",
+        "correct": "becomes greater",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "10",
+        "question": "The figure in a receiver's specifications which indicates its sensitivity is the:",
+        "selected": "number of RF amplifiers",
+        "correct": "RF input signal needed to achieve a given signal plus noise to noise ratio",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "1",
+        "question": "That portion of the radiation which is directly affected by the surface of the Earth is called:",
+        "selected": "ionospheric wave",
+        "correct": "ground wave",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "18",
+        "question": "An unmodulated carrier may be transmitted only:",
+        "selected": "for brief tests on frequencies below 30 MHz",
+        "correct": "for brief tests on frequencies below 30 MHz",
+        "is_correct": true
+      },
+      {
+        "section": "B-006",
+        "group": "9",
+        "question": "Approximately how much gain does a half-wave dipole have over an isotropic radiator?",
+        "selected": "2.1 dB",
+        "correct": "2.1 dB",
+        "is_correct": true
+      },
+      {
+        "section": "B-004",
+        "group": "4",
+        "question": "The source of a field effect transistor corresponds to the _______ of a bipolar transistor.",
+        "selected": "emitter",
+        "correct": "emitter",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "22",
+        "question": "The fee for taking amateur radio certificate examinations at an Innovation, Science and Economic Development Canada office is:",
+        "selected": "$5 per qualification examination",
+        "correct": "no charge for qualification examinations",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "3",
+        "question": "If you install a 6 metre Yagi on a tower 60 metres (200 ft) from your transmitter, which of the following transmission lines provides the least loss?",
+        "selected": "RG-58",
+        "correct": "RG-213",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "4",
+        "question": "What causes selective fading?",
+        "selected": "Time differences between the receiving and transmitting stations",
+        "correct": "Phase differences between radio wave components of the same transmission, as experienced at the receiving station",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "12",
+        "question": "Resonant circuits in a receiver are used to:",
+        "selected": "increase power",
+        "correct": "select signal frequencies",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "6",
+        "question": "When two 500 ohm 1 watt resistors are connected in parallel, they can dissipate a maximum total power of:",
+        "selected": "1 watt",
+        "correct": "2 watts",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "1",
+        "question": "The characteristic impedance of a transmission line is:",
+        "selected": "the ratio of the power supplied to the line to the power delivered to the load",
+        "correct": "equal to the pure resistance which, if connected to the end of the line, will absorb all the power arriving along it",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "2",
+        "question": "Why is the F2 region mainly responsible for the longest distance radio-wave propagation?",
+        "selected": "Because it is the highest ionospheric region",
+        "correct": "Because it is the highest ionospheric region",
+        "is_correct": true
+      },
+      {
+        "section": "B-003",
+        "group": "17",
+        "question": "You have a very loud low-frequency hum appearing on your transmission. In what part of the transmitter would you first look for the trouble?",
+        "selected": "The power amplifier circuit",
+        "correct": "The power supply",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "8",
+        "question": "If you are in contact with another station and you hear an emergency call for help on your frequency, what should you do?",
+        "selected": "Call your local police station and inform them of the emergency call",
+        "correct": "Immediately stop your contact and acknowledge the emergency call",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "7",
+        "question": "In an amateur digital radio system, the __________________interfaces with the computer.",
+        "selected": "transceiver",
+        "correct": "input/output",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "11",
+        "question": "A permanent magnet would most likely be made from:",
+        "selected": "steel",
+        "correct": "steel",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "15",
+        "question": "In Canada, radio amateurs may use which of the following for radio control of models:",
+        "selected": "50 to 54 MHz only",
+        "correct": "all amateur frequency bands above 30 MHz",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "3",
+        "question": "If you are operating simplex on a repeater frequency, why would it be good amateur practice to change to another frequency?",
+        "selected": "The repeater's output power may ruin your station's receiver",
+        "correct": "Changing the repeater's frequency is not practical",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "4",
+        "question": "What conditions must candidates to amateur radio certification meet?",
+        "selected": "Be at least 14 years of age and a Canadian citizen or permanent resident",
+        "correct": "Have a valid address in Canada",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "8",
+        "question": "What kind of unusual HF propagation allows weak signals from the skip zone to be heard occasionally?",
+        "selected": "Scatter-mode",
+        "correct": "Scatter-mode",
+        "is_correct": true
+      },
+      {
+        "section": "B-005",
+        "group": "5",
+        "question": "The total current in a parallel circuit is equal to the:",
+        "selected": "sum of the currents through all the parallel branches",
+        "correct": "sum of the currents through all the parallel branches",
+        "is_correct": true
+      },
+      {
+        "section": "B-006",
+        "group": "7",
+        "question": "If an electromagnetic wave leaves an antenna vertically polarized, it will arrive at the receiving antenna, by ground wave:",
+        "selected": "polarized at right angles to original",
+        "correct": "vertically polarized",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "5",
+        "question": "Where a friend is not the holder of any type of radio operator certificate, you, as a holder of an Amateur Radio Operator Certificate with Basic Qualification, may, on behalf of your friend:",
+        "selected": "install and operate the radio apparatus, using your own call sign",
+        "correct": "not install, place in operation, modify, repair, maintain, or permit the operation of the radio apparatus",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "11",
+        "question": "Approximately how long is the reflector element of a Yagi antenna for 28.1 MHz?",
+        "selected": "2.66 metres (8.75 feet)",
+        "correct": "5.33 metres (17.5 feet)",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "3",
+        "question": "In a frequency modulation receiver, the ________ is located between the filter and the limiter.",
+        "selected": "mixer",
+        "correct": "intermediate frequency amplifier",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "8",
+        "question": "The velocity of propagation of radio frequency energy in free space is:",
+        "selected": "186 000 kilometres per second",
+        "correct": "300 000 kilometres per second",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "16",
+        "question": "A lithium-ion battery should never be:",
+        "selected": "recharged",
+        "correct": "short-circuited",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "4",
+        "question": "In a typical CW transmitter, the ___________ is the primary source of direct current.",
+        "selected": "driver/buffer",
+        "correct": "power supply",
+        "is_correct": false
+      },
+      {
+        "section": "B-008",
+        "group": "5",
+        "question": "A band pass filter will:",
+        "selected": "attenuate high frequencies but not low",
+        "correct": "allow only certain frequencies through",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "20",
+        "question": "Why should you wear approved fall arrest equipment if you are working on an antenna tower?",
+        "selected": "To safely bring any tools you might use up and down the tower",
+        "correct": "To prevent you from accidentally falling",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "10",
+        "question": "If you made a half-wavelength vertical antenna for 223 MHz, approximately how long would it be?",
+        "selected": "134.6 cm (53 in)",
+        "correct": "67 cm (26.4 in)",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "13",
+        "question": "When measuring current drawn from a DC power supply, it is true to say that the meter will act in circuit as:",
+        "selected": "a low value resistance",
+        "correct": "a low value resistance",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "6",
+        "question": "Which of the following statements is not correct? A person may operate radio apparatus, authorized in the amateur service:",
+        "selected": "only where the person complies with the Standards for the Operation of Radio Stations in the Amateur Radio Service",
+        "correct": "on aeronautical, marine or land mobile frequencies",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "19",
+        "question": "Where should the green wire in a three-wire AC line cord be connected in a power supply?",
+        "selected": "To the fuse",
+        "correct": "To the chassis",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "7",
+        "question": "In the amateur radio service, business communications:",
+        "selected": "are only permitted if they are for the safety of life or immediate protection of property",
+        "correct": "are not permitted under any circumstance",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "10",
+        "question": "The reactance of capacitors increases as:",
+        "selected": "frequency increases",
+        "correct": "frequency decreases",
+        "is_correct": false
+      },
+      {
+        "section": "B-002",
+        "group": "9",
+        "question": "What is an azimuthal map?",
+        "selected": "A map that shows the number of degrees longitude that an amateur satellite appears to move westward at the equator",
+        "correct": "A map projection centered on a particular location, used to determine the shortest path between points on the Earth's surface",
+        "is_correct": false
+      },
+      {
+        "section": "B-008",
+        "group": "3",
+        "question": "A parasitic oscillation:",
+        "selected": "is an unwanted signal developed in a transmitter",
+        "correct": "is an unwanted signal developed in a transmitter",
+        "is_correct": true
+      },
+      {
+        "section": "B-006",
+        "group": "4",
+        "question": "As the frequency of a signal is changed, what happens to signal loss in a transmission line?",
+        "selected": "Signal loss is the same for any frequency",
+        "correct": "Signal loss increases with increasing frequency",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "8",
+        "question": "You add a 9 dB gain amplifier to your 2 watt handheld. What is the power output of the combination?",
+        "selected": "18 watts",
+        "correct": "16 watts",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "8",
+        "question": "In a regulated power supply, the _______________ is between the transformer and the filter.",
+        "selected": "input",
+        "correct": "rectifier",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "11",
+        "question": "What circuit has a variable-frequency oscillator connected to a buffer/driver and a power amplifier?",
+        "selected": "A crystal-controlled AM transmitter",
+        "correct": "A VFO-controlled CW transmitter",
+        "is_correct": false
+      },
+      {
+        "section": "B-006",
+        "group": "12",
+        "question": "If you made a half-wavelength dipole antenna for 28.150 MHz, approximately how long would it be?",
+        "selected": "5.08 metres (16.62 ft)",
+        "correct": "5.08 metres (16.62 ft)",
+        "is_correct": true
+      },
+      {
+        "section": "B-003",
+        "group": "9",
+        "question": "In a Yagi 3 element directional antenna, the ________ is the longest radiating element.",
+        "selected": "director",
+        "correct": "reflector",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "18",
+        "question": "How could you best keep unauthorized persons from using your amateur station at home?",
+        "selected": "Use a key-operated on/off switch in the main power line",
+        "correct": "Use a key-operated on/off switch in the main power line",
+        "is_correct": true
+      },
+      {
+        "section": "B-002",
+        "group": "6",
+        "question": "What is the meaning of: \"Your signal report is 5 7\"?",
+        "selected": "Your signal is perfectly readable, but weak",
+        "correct": "Your signal is perfectly readable and moderately strong",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "9",
+        "question": "If two equal-value capacitors are connected in series, what is their total capacitance?",
+        "selected": "The same as the value of either capacitor",
+        "correct": "Half the value of either capacitor",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "20",
+        "question": "In addition to complying with the Radiocommunication Act and Regulations, Canadian radio amateurs must also comply with the regulations of the:",
+        "selected": "International Telecommunication Union",
+        "correct": "International Telecommunication Union",
+        "is_correct": true
+      },
+      {
+        "section": "B-006",
+        "group": "6",
+        "question": "What does an antenna tuner do?",
+        "selected": "It helps a receiver automatically tune in stations that are far away",
+        "correct": "It matches a transceiver to a mismatched antenna system",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "13",
+        "question": "What is the usual bandwidth of a frequency-modulated amateur signal for +/- 5kHz deviation?",
+        "selected": "Between 5 and 10 kHz",
+        "correct": "Between 10 and 20 kHz",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "16",
+        "question": "Which of the following bands of amateur frequencies has a maximum allowed bandwidth of less than 6 kHz. That band is:",
+        "selected": "10.1 to 10.15 MHz",
+        "correct": "10.1 to 10.15 MHz",
+        "is_correct": true
+      },
+      {
+        "section": "B-003",
+        "group": "6",
+        "question": "In an single sideband transmitter, the ____________ is in between the mixer and the antenna.",
+        "selected": "linear amplifier",
+        "correct": "linear amplifier",
+        "is_correct": true
+      },
+      {
+        "section": "B-003",
+        "group": "14",
+        "question": "What is the reason for using a properly adjusted speech processor with a single-sideband phone transmitter?",
+        "selected": "It reduces unwanted noise pickup from the microphone",
+        "correct": "It improves signal intelligibility at the receiver",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "23",
+        "question": "Which of these statements about the installation or modification  of an antenna structure is not correct?",
+        "selected": "A radio amateur may erect any size antenna structure without consulting neighbours or the local land-use authority",
+        "correct": "A radio amateur may erect any size antenna structure without consulting neighbours or the local land-use authority",
+        "is_correct": true
+      },
+      {
+        "section": "B-006",
+        "group": "5",
+        "question": "The result of the presence of standing waves on a transmission line is:",
+        "selected": "maximum transfer of energy to the antenna from the transmitter",
+        "correct": "reduced transfer of RF energy to the antenna",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "19",
+        "question": "All amateur stations, regardless of the mode of transmission used, must be equipped with:",
+        "selected": "a reliable means of determining the operating radio frequency",
+        "correct": "a reliable means of determining the operating radio frequency",
+        "is_correct": true
+      },
+      {
+        "section": "B-005",
+        "group": "1",
+        "question": "6.6 kilovolts is equal to:",
+        "selected": "660 volts",
+        "correct": "6600 volts",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "5",
+        "question": "In a single sideband and CW receiver, the output of the ___________ is connected to the mixer.",
+        "selected": "beat frequency oscillator",
+        "correct": "local oscillator",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "14",
+        "question": "If a non-amateur friend is using your station to talk to someone in Canada, and a foreign station breaks in to talk to your friend, what should you do?",
+        "selected": "Have your friend wait until you determine from the foreign station if their administration permits third-party traffic",
+        "correct": "Have your friend wait until you determine from the foreign station if their administration permits third-party traffic",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "1",
+        "question": "Authority to make \"Standards for the Operation of Radio Stations in the Amateur Radio Service\" is derived from:",
+        "selected": "the Standards for the Operation of Radio Stations in the Amateur Radio Service",
+        "correct": "the Radiocommunication Act",
+        "is_correct": false
+      },
+      {
+        "section": "B-001",
+        "group": "3",
+        "question": "A person found guilty of transmitting a false or fraudulent distress signal, or interfering with, or obstructing any radio communication, without lawful cause, may be liable, on summary conviction, to a penalty of:",
+        "selected": "a prison term of two years",
+        "correct": "a fine, not exceeding $5 000, or a prison term of one year, or both",
+        "is_correct": false
+      },
+      {
+        "section": "B-005",
+        "group": "4",
+        "question": "What voltage would be needed to supply a current of 200 milliamperes, to operate an electric lamp which has a resistance of 25 ohms?",
+        "selected": "8 volts",
+        "correct": "5 volts",
+        "is_correct": false
+      },
+      {
+        "section": "B-008",
+        "group": "4",
+        "question": "What type of interference may come from a multi-band antenna connected to a poorly tuned transmitter?",
+        "selected": "Parasitic excitation",
+        "correct": "Harmonic radiation",
+        "is_correct": false
+      },
+      {
+        "section": "B-004",
+        "group": "3",
+        "question": "The basic semiconductor amplifying device is the:",
+        "selected": "tube",
+        "correct": "transistor",
+        "is_correct": false
+      },
+      {
+        "section": "B-007",
+        "group": "5",
+        "question": "When sunspot numbers are high, how is propagation affected?",
+        "selected": "Frequencies up to 40 MHz or even higher become usable for long-distance communication",
+        "correct": "Frequencies up to 40 MHz or even higher become usable for long-distance communication",
+        "is_correct": true
+      },
+      {
+        "section": "B-001",
+        "group": "21",
+        "question": "In which International Telecommunication Union Region is Canada?",
+        "selected": "Region 1",
+        "correct": "Region 2",
+        "is_correct": false
+      },
+      {
+        "section": "B-003",
+        "group": "1",
+        "question": "In designing an HF station, which component would you use to reduce the effects of harmonic radiation?",
+        "selected": "Dummy load",
+        "correct": "Low pass filter",
+        "is_correct": false
+      }
+    ]
   }
 ]
