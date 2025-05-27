@@ -6,15 +6,23 @@ import json
 import os
 import random
 import plotly.express as px  # Add this import
+from functools import cache
 
 st.set_page_config(layout="wide", page_title="Amateur Radio Study Guide", page_icon="📡")
 
 st.title("Basic Amateur Radio Study Guide")
 
-study_guide = pd.read_excel("ham.xlsx", sheet_name="study guide", header=2)
-test = pd.read_excel("ham.xlsx", sheet_name="test")
+@cache
+def read_excel():
+    study_guide = pd.read_excel("ham.xlsx", sheet_name="study guide", header=2)
+    test = pd.read_excel("ham.xlsx", sheet_name="test")
 
-sections = study_guide["Section"].unique()
+    sections = study_guide["Section"].unique()
+    return study_guide, test, sections
+
+
+study_guide, test, sections = read_excel()
+
 # st.sidebar.title("Sections")    
 # st.write("Select a section to view questions:")
 # selected_section = st.sidebar.selectbox("Select a section", sections)
@@ -298,18 +306,20 @@ elif page == "Review History":
             if not df_all.empty:
                 # Add test selection slider
                 total_tests = len(results)
-                num_tests = st.slider(
-                    "Number of recent tests to analyze:",
-                    min_value=1,
-                    max_value=total_tests,
-                    value=total_tests,
-                    help="Select how many of your most recent tests to include in the analysis"
-                )
+                if total_tests > 1:
+                    num_tests = st.slider(
+                        "Number of recent tests to analyze:",
+                        min_value=1,
+                        max_value=total_tests,
+                        value=total_tests,
+                        help="Select how many of your most recent tests to include in the analysis"
+                    )
+                else:
+                    num_tests = 1
+                    st.info("Only one test result available.")
                 
                 # Filter answers to include only the selected number of recent tests
                 recent_results = results[-num_tests:]  # Get most recent tests
-                all_answers = [ans for res in recent_results for ans in res['answers']]
-                df_all = pd.DataFrame(all_answers)
                 
                 # Create heatmap of section/group performance
                 st.subheader("Section/Group Breakdown - Heatmap")
@@ -390,7 +400,7 @@ elif page == "Review History":
                 df = pd.DataFrame(res['answers'])
                 df['Result'] = df['is_correct'].map({True: '✅ Correct', False: '❌ Incorrect'})
                 st.dataframe(
-                    df[["section", "group", "question", "selected", "correct", "Result"]],
+                    df[["section", "group", "question", "Result", "selected", "correct"]],
                     hide_index=True,
                     use_container_width=True
                 )
