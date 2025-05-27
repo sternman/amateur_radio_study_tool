@@ -324,6 +324,7 @@ elif page == "Review History":
             df_all = pd.DataFrame(all_answers)
             
             if not df_all.empty:
+                st.subheader("Section/Group Breakdown - Heatmap")
                 # Add test selection slider
                 total_tests = len(results)
                 if total_tests > 1:
@@ -342,7 +343,7 @@ elif page == "Review History":
                 recent_results = results[-num_tests:]  # Get most recent tests
                 
                 # Create heatmap of section/group performance
-                st.subheader("Section/Group Breakdown - Heatmap")
+                
                 # Convert group column to integer for proper sorting
                 df_all['group'] = pd.to_numeric(df_all['group'])
                 
@@ -382,10 +383,50 @@ elif page == "Review History":
                     hoverongaps=False,
                     hovertemplate="Section: %{y}<br>" +
                                 "Group: %{x}<br>" +
-                                "Score: %{z:.1f}%<br><extra></extra>"
+                                "Score: %{z:.1f}%<br>" +
+                                "<extra>Click to see questions</extra>"
                 )
+                fig.update_layout(dragmode="select")
                 
-                st.plotly_chart(fig, use_container_width=True)
+                # Display the plot and capture clicks
+                clicked = st.plotly_chart(
+                    fig, 
+                    use_container_width=True,
+                    # on_select="click",  # Capture click events
+                    key="heatmap",
+                    selection_mode=('box'),
+                    
+                    on_select="rerun"
+                    
+                )
+                # click_data = st.session_state.get("plotly_clickData")
+                # st.write(clicked)
+                if clicked is not None and "box" in clicked.get("selection").keys():  # Check if there was a valid click event
+                    # st.write("Tru fasd")
+                    
+                    clicked_section = 1 + round(clicked.get("selection")["box"][0]["y"][0],0)
+                    clicked_group =  round(clicked.get("selection")["box"][0]["x"][0],0)
+                    
+                    clicked_group = int(clicked_group) if int(clicked_group) > 0 else 1
+                    clicked_group = f"{clicked_group}"
+                    clicked_section = f"B-00{int(clicked_section)}"
+                    
+
+                    questions = test[
+                            (test["Section"] == str(clicked_section)) & 
+                            (test["Group"] == int(clicked_group))
+                        ]
+                    ex = st.container(border=False)
+                    
+                    with ex.expander(f"Show Questions for Section {clicked_section}, Group {clicked_group} - {len(questions)} Questions", expanded=False):
+                        for _, q in questions.iterrows():
+                                st.markdown(f"""
+                                ---
+                                **Question Id {q['question_id']}**  
+                                **Question:** {q['question_english']}  
+                                **Answer:** {q['correct_answer_english']}
+                                """)
+                                   
                 
                 # Summary statistics table
                 st.subheader("Section/Group Performance")
