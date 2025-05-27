@@ -52,6 +52,8 @@ To launch the app
 
 App is also deployed to [streamlit](https://amatuerradiostudy.streamlit.app/)
 
+__https://amatuerradiostudy.streamlit.app/__
+
 The app will be deployed on commit to the master branch.
 
 The repo needs to be fixed to accommodate more contributers.
