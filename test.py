@@ -236,7 +236,7 @@ if page == "Take Test":
             st.rerun()
 
 elif page == "Review History":
-    st.header("Test History")
+    st.header("Review History")
     
     email = st.text_input("Enter your email address to view your history:", key="view_email")
     
