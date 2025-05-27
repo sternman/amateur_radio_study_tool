@@ -241,12 +241,21 @@ elif page == "Review History":
     email = st.text_input("Enter your email address to view your history:", key="view_email")
     
     if email:
-        email = email.lower().strip()
-        filename = f"test_results_{email}.json"
-        
+        filename = f"test_results_{email.lower().strip()}.json"
         if os.path.exists(filename):
             with open(filename, "r") as f:
                 results = json.load(f)
+            
+            # Add summary metrics at the top
+            if results:
+                col1, col2, col3, col4, col5 = st.columns(5)
+                col1.metric("Total Tests", len(results))
+                col2.metric("Average Score", f"{sum(r['score'] for r in results)/len(results):.1f}%")
+                col3.metric("Best Score", f"{max(r['score'] for r in results)}%")
+                col4.metric("Latest Score", f"{results[-1]['score']}%")
+                # Add Last 5 Average
+                last_5_avg = sum(r['score'] for r in results[-5:])/min(len(results), 5)
+                col5.metric("Last 5 Average", f"{last_5_avg:.1f}%")
             
             # Create bar chart of scores over time
             if results:
