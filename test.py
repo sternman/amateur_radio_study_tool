@@ -399,33 +399,36 @@ elif page == "Review History":
                     on_select="rerun"
                     
                 )
+                st.markdown("_Draw a rectangle in the box to see the questions for that section below_")
                 # click_data = st.session_state.get("plotly_clickData")
                 # st.write(clicked)
                 if clicked is not None and "box" in clicked.get("selection").keys():  # Check if there was a valid click event
                     # st.write("Tru fasd")
-                    
-                    clicked_section = 1 + round(clicked.get("selection")["box"][0]["y"][0],0)
-                    clicked_group =  round(clicked.get("selection")["box"][0]["x"][0],0)
-                    
-                    clicked_group = int(clicked_group) if int(clicked_group) > 0 else 1
-                    clicked_group = f"{clicked_group}"
-                    clicked_section = f"B-00{int(clicked_section)}"
-                    
+                    try:
+                        clicked_section = 1 + round(clicked.get("selection")["box"][0]["y"][0],0)
+                        clicked_group =  round(clicked.get("selection")["box"][0]["x"][0],0)
+                        
+                        clicked_group = int(clicked_group) if int(clicked_group) > 0 else 1
+                        clicked_group = f"{clicked_group}"
+                        clicked_section = f"B-00{int(clicked_section)}"
+                        
 
-                    questions = test[
-                            (test["Section"] == str(clicked_section)) & 
-                            (test["Group"] == int(clicked_group))
-                        ]
-                    ex = st.container(border=False)
-                    
-                    with ex.expander(f"Show Questions for Section {clicked_section}, Group {clicked_group} - {len(questions)} Questions", expanded=False):
-                        for _, q in questions.iterrows():
-                                st.markdown(f"""
-                                ---
-                                **Question Id {q['question_id']}**  
-                                **Question:** {q['question_english']}  
-                                **Answer:** {q['correct_answer_english']}
-                                """)
+                        questions = test[
+                                (test["Section"] == str(clicked_section)) & 
+                                (test["Group"] == int(clicked_group))
+                            ]
+                        ex = st.container(border=False)
+                        
+                        with ex.expander(f"Show Questions for Section {clicked_section}, Group {clicked_group} - {len(questions)} Questions", expanded=False):
+                            for _, q in questions.iterrows():
+                                    st.markdown(f"""
+                                    ---
+                                    **Question Id {q['question_id']}**  
+                                    **Question:** {q['question_english']}  
+                                    **Answer:** {q['correct_answer_english']}
+                                    """)
+                    except:
+                        pass
                                    
                 
                 # Summary statistics table
