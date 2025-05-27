@@ -292,15 +292,15 @@ elif page == "Review History":
                 fig.add_hline(
                     y=70, 
                     line_dash="solid", 
-                    line_color="red",
+                    line_color="green",
                     annotation_text="Pass (70%)",
                     annotation_position="right",
                     layer="below"  # Add this line to put it behind bars
                 )
                 fig.add_hline(
                     y=80, 
-                    line_dash="dash", 
-                    line_color="green",
+                    line_dash="solid", 
+                    line_color="blue",
                     annotation_text="Honours (80%)",
                     annotation_position="right",
                     layer="below"  # Add this line to put it behind bars
