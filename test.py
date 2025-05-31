@@ -347,7 +347,11 @@ elif page == "Review History":
                 # Convert group column to integer for proper sorting
                 df_all['group'] = pd.to_numeric(df_all['group'])
                 
-                pivot_table = df_all.pivot_table(
+                recent_answers = [ans for res in recent_results for ans in res['answers']]
+                df_recent = pd.DataFrame(recent_answers)
+                # st.write(recent_answers)
+
+                pivot_table = df_recent.pivot_table(
                     values='is_correct',
                     index='section',
                     columns='group',
@@ -399,7 +403,8 @@ elif page == "Review History":
                     on_select="rerun"
                     
                 )
-                st.markdown("_Draw a rectangle in the box to see the questions for that section below_")
+                st.markdown("_Draw a rectangle above to see questions._ </br> _Top left of the rectangle will be the questions displayed below_", 
+                            unsafe_allow_html=True)
                 # click_data = st.session_state.get("plotly_clickData")
                 # st.write(clicked)
                 if clicked is not None and "box" in clicked.get("selection").keys():  # Check if there was a valid click event
@@ -447,7 +452,124 @@ elif page == "Review History":
                     hide_index=True,
                     use_container_width=True
                 )
-                
+
+                # Question Coverage Analysis
+                st.subheader("Question Coverage Analysis")
+
+                # Get all unique questions answered by user
+                answered_questions = df_all[['section', 'group', 'question']].drop_duplicates()
+
+                # Create a dataframe of all possible questions from test bank
+                all_questions = test[['Section', 'Group', 'question_id', 'question_english']].copy()
+                all_questions.columns = ['section', 'group', 'question_id', 'question']
+
+                # Group by section and group to get totals
+                question_coverage = all_questions.groupby(['section', 'group']).agg({
+                    'question': 'count'
+                }).reset_index()
+                question_coverage.columns = ['section', 'group', 'total_questions']
+
+                # Get count of answered questions by section and group
+                answered_counts = answered_questions.groupby(['section', 'group']).size().reset_index()
+                answered_counts.columns = ['section', 'group', 'answered_questions']
+
+                # Merge the counts
+                coverage_stats = question_coverage.merge(
+                    answered_counts, 
+                    on=['section', 'group'], 
+                    how='left'
+                ).fillna(0)
+
+                coverage_stats['answered_questions'] = coverage_stats['answered_questions'].astype(int)
+                coverage_stats['remaining_questions'] = coverage_stats['total_questions'] - coverage_stats['answered_questions']
+                coverage_stats['coverage_percent'] = (coverage_stats['answered_questions'] / coverage_stats['total_questions'] * 100).round(1)
+
+                # Calculate overall statistics
+                total_questions_overall = coverage_stats['total_questions'].sum()
+                total_answered_overall = coverage_stats['answered_questions'].sum()
+                total_unanswered = total_questions_overall - total_answered_overall
+                overall_coverage = (total_answered_overall / total_questions_overall * 100).round(1)
+
+                # Display overall summary
+                st.info(
+                    f"Overall Question Coverage: "
+                    f"{total_answered_overall:,} of {total_questions_overall:,} questions answered "
+                    f"({overall_coverage}% complete). "
+                    f"**{total_unanswered:,} questions remaining.**"
+                )
+
+                # Display coverage statistics (existing code)
+                st.dataframe(
+                    coverage_stats[[
+                        'section', 'group', 'total_questions', 'answered_questions', 
+                        'remaining_questions', 'coverage_percent'
+                    ]].sort_values(['section', 'group']),
+                    hide_index=True,
+                    use_container_width=True,
+                    column_config={
+                        'section': 'Section',
+                        'group': 'Group',
+                        'total_questions': 'Total Questions',
+                        'answered_questions': 'Questions Answered',
+                        'remaining_questions': 'Questions Remaining',
+                        'coverage_percent': st.column_config.NumberColumn(
+                            'Coverage %',
+                            format="%.1f%%"
+                        )
+                    }
+                )
+
+                # Add section to show unanswered questions
+                with st.expander("View Unanswered Questions", expanded=False):
+                    # Get list of answered question texts
+                    answered_texts = set(answered_questions['question'].unique())
+                    
+                    # Filter for unanswered questions - include full question details
+                    unanswered = test[
+                        ~test['question_english'].isin(answered_texts)
+                    ][['Section', 'Group', 'question_id', 'question_english', 'correct_answer_english']]
+                    unanswered.columns = ['section', 'group', 'question_id', 'question', 'answer']
+                    
+                    if not unanswered.empty:
+                        # Add section/group selector for unanswered questions
+                        col1, col2 = st.columns(2)
+                        
+                        # Get unique sections that have unanswered questions
+                        sections_with_unanswered = sorted(unanswered['section'].unique())
+                        selected_section = col1.selectbox(
+                            "Select Section:", 
+                            sections_with_unanswered,
+                            key="unanswered_section"
+                        )
+                        
+                        # Filter groups based on selected section
+                        groups_in_section = sorted(unanswered[unanswered['section'] == selected_section]['group'].unique())
+                        selected_group = col2.selectbox(
+                            "Select Group:",
+                            groups_in_section,
+                            key="unanswered_group"
+                        )
+                        
+                        # Get questions for selected section/group
+                        filtered_questions = unanswered[
+                            (unanswered['section'] == selected_section) & 
+                            (unanswered['group'] == selected_group)
+                        ]
+                        
+                        if not filtered_questions.empty:
+                            st.write(f"Found {len(filtered_questions)} unanswered questions:")
+                            for _, q in filtered_questions.iterrows():
+                                st.markdown(f"""
+                                ---
+                                **Question {q['question_id']}**  
+                                **Question:** {q['question']}  
+                                **Answer:** {q['answer']}
+                                """)
+                        else:
+                            st.info("No unanswered questions in this section/group!")
+                    else:
+                        st.success("You have answered all questions in the test bank!")
+
                 # Individual test selection
                 st.subheader("Individual Test Results")
                 test_options = [
