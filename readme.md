@@ -50,9 +50,9 @@ To launch the app
 
 ***
 
-App is also deployed to [streamlit](https://amatuerradiostudy.streamlit.app/)
+App is also deployed to [streamlit](https://amateurradiostudy.streamlit.app/)
 
-__https://amatuerradiostudy.streamlit.app/__
+__https://amateurradiostudy.streamlit.app/__
 
 The app will be deployed on commit to the master branch.
 
