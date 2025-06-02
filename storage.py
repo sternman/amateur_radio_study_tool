@@ -32,7 +32,7 @@ class StorageManager:
 
     def get_test_results(self, email):
         """Get test results from blob storage"""
-        blob_name = f"test_results_{email}.json"
+        blob_name = f"test_results/test_results_{email}.json"
         print(blob_name)
         blob_client = self.container_client.get_blob_client(blob_name)
         
@@ -46,8 +46,8 @@ class StorageManager:
         """List all users with test results"""
         users = []
         for blob in self.container_client.list_blobs():
-            if blob.name.startswith("test_results_"):
-                email = blob.name.replace("test_results_", "").replace(".json", "")
+            if blob.name.startswith("test_results/test_results_"):
+                email = blob.name.replace("test_results/test_results_", "").replace(".json", "")
                 users.append(email)
         return users
 
