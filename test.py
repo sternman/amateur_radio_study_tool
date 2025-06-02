@@ -67,31 +67,34 @@ print(storage_mgr.list_users())
 
 def save_test_result(result, email):
     try:
-        # Convert datetime/time objects to strings and int64 to regular Python int
-        result['score'] = int(result['score'])
-        result['total'] = int(result['total'])
-        
-        # Ensure timestamp is string in ISO format
-        if isinstance(result['timestamp'], (datetime, pd.Timestamp)):
-            result['timestamp'] = result['timestamp'].isoformat()
-        
-        # Convert any int64 and timestamps in answers
-        for answer in result['answers']:
-            if 'group' in answer:
-                answer['group'] = int(answer['group'])
-            if 'score' in answer:
-                answer['score'] = int(answer['score'])
-            if 'timestamp' in answer and isinstance(answer['timestamp'], (datetime, pd.Timestamp)):
-                answer['timestamp'] = answer['timestamp'].isoformat()
-            
-            # Convert any pandas or numpy types to native Python types
+        def convert_to_serializable(obj):
+            if isinstance(obj, (datetime, pd.Timestamp)):
+                return obj.isoformat()
+            elif hasattr(obj, 'item'):  # numpy types
+                return obj.item()
+            elif pd.isna(obj):  # pandas NA/NaN
+                return None
+            elif hasattr(obj, '__dict__'):  # custom objects
+                return str(obj)
+            return obj
+
+        # Deep copy and convert the result dictionary
+        processed_result = {
+            "timestamp": convert_to_serializable(result["timestamp"]),
+            "score": int(result["score"]),
+            "total": int(result["total"]),
+            "answers": []
+        }
+
+        # Process each answer
+        for answer in result["answers"]:
+            processed_answer = {}
             for key, value in answer.items():
-                if hasattr(value, 'item'):  # Check if it's a numpy type
-                    answer[key] = value.item()
-                elif pd.isna(value):  # Check if it's a pandas NA value
-                    answer[key] = None
-        
-        storage_mgr.save_test_result(email.lower().strip(), result)
+                processed_answer[key] = convert_to_serializable(value)
+            processed_result["answers"].append(processed_answer)
+
+        # Save the processed result
+        storage_mgr.save_test_result(email.lower().strip(), processed_result)
         return True
     except Exception as e:
         st.error(f"Error saving results: {str(e)}")
