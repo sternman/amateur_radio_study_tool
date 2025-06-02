@@ -67,16 +67,29 @@ print(storage_mgr.list_users())
 
 def save_test_result(result, email):
     try:
-        # Convert int64 to regular Python int
+        # Convert datetime/time objects to strings and int64 to regular Python int
         result['score'] = int(result['score'])
         result['total'] = int(result['total'])
         
-        # Convert any int64 in answers
+        # Ensure timestamp is string in ISO format
+        if isinstance(result['timestamp'], (datetime, pd.Timestamp)):
+            result['timestamp'] = result['timestamp'].isoformat()
+        
+        # Convert any int64 and timestamps in answers
         for answer in result['answers']:
             if 'group' in answer:
                 answer['group'] = int(answer['group'])
             if 'score' in answer:
                 answer['score'] = int(answer['score'])
+            if 'timestamp' in answer and isinstance(answer['timestamp'], (datetime, pd.Timestamp)):
+                answer['timestamp'] = answer['timestamp'].isoformat()
+            
+            # Convert any pandas or numpy types to native Python types
+            for key, value in answer.items():
+                if hasattr(value, 'item'):  # Check if it's a numpy type
+                    answer[key] = value.item()
+                elif pd.isna(value):  # Check if it's a pandas NA value
+                    answer[key] = None
         
         storage_mgr.save_test_result(email.lower().strip(), result)
         return True
@@ -542,8 +555,8 @@ elif page == "Review History":
                             
                             # Get questions for selected section/group
                             filtered_questions = unanswered[
-                                (unanswered['section'] == selected_section) & 
-                                (unanswered['group'] == selected_group)
+                                (filtered_questions['section'] == selected_section) & 
+                                (filtered_questions['group'] == selected_group)
                             ]
                             
                             if not filtered_questions.empty:
