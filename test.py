@@ -67,6 +67,17 @@ print(storage_mgr.list_users())
 
 def save_test_result(result, email):
     try:
+        # Convert int64 to regular Python int
+        result['score'] = int(result['score'])
+        result['total'] = int(result['total'])
+        
+        # Convert any int64 in answers
+        for answer in result['answers']:
+            if 'group' in answer:
+                answer['group'] = int(answer['group'])
+            if 'score' in answer:
+                answer['score'] = int(answer['score'])
+        
         storage_mgr.save_test_result(email.lower().strip(), result)
         return True
     except Exception as e:
