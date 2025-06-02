@@ -5,6 +5,12 @@ import json
 import os
 from glob import glob
 from functools import cache
+from storage import StorageManager
+from dotenv import load_dotenv
+
+load_dotenv()
+
+storage_mgr = StorageManager(os.getenv('AZURE_STORAGE_CONNECTION_STRING'))
 
 @cache
 def read_excel():
@@ -27,19 +33,13 @@ st.set_page_config(
 st.title("Admin Dashboard")
 
 # Get all test result files
-test_files = glob("test_results_*.json")
-test_files = [os.path.basename(f) for f in test_files]
-emails = [f.replace("test_results_", "").replace(".json", "") for f in test_files]
+emails = storage_mgr.list_users()
 
 if not emails:
     st.warning("No test results found")
 else:
     selected_email = st.selectbox("Select user to review:", emails)
-    
-    filename = f"test_results_{selected_email}.json"
-    
-    with open(filename, "r") as f:
-        results = json.load(f)
+    results = storage_mgr.get_test_results(selected_email)
     
     # Add after loading results
     if results:
@@ -332,8 +332,7 @@ else:
             # Add JSON download option
             with st.expander("Download User Data - JSON"):
                 # Read the JSON file
-                with open(filename, "r") as f:
-                    json_data = f.read()
+                json_data = storage_mgr.download_json(selected_email)
                 
                 st.download_button(
                     label="Download JSON",
