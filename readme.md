@@ -34,7 +34,14 @@ UPDATE:
 
 I have modified the files to save to Azure blob storage as the streamlit deployment would overwrite or delete saved work. The share.streamlit.io hosting platform is limited in its deployment options. While an Azure blob storage account incurs costs, it will be extremely small for a project like this. < $10/year
 
-Set a normal non ADLS gen 2 account, copy key 1 or 2 connection string and set that in your local `.env` file.
+Settings:
+Account Kind: StorageV2 (general purpose v2)
+Performance: Standard
+Replication: Locally-replicated storage (LRS)
+Blob Service - Hierarchcial namespace: Disabled
+Networking - Allow access from: all networks
+
+, copy key 1 or 2 connection string and set that in your local project folder, `.env` file.
 
 ```AZURE_STORAGE_CONNECTION_STRING=paste your connection string here```
 
