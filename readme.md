@@ -32,7 +32,7 @@ Streamlit is used as the web wrapper. Also provides an easy way to make forms an
 
 UPDATE:
 
-I have modified the files to save to Azure blob storage as the streamlit deployment would overwrite or delete saved work. The share.streamlit.io hosting platform is limited in its deployment options. While an Azure blob storage account incurs costs, it will be extremely small for a project like this. < $10/year
+I have modified the files to save to Azure blob storage as the streamlit deployment would overwrite or delete saved work. The share.streamlit.io hosting platform is limited in its deployment options. While an Azure blob storage account incurs costs, it will be extremely small for a project like this. < $10/year. For local purposes, this can be removed.
 
 Settings:
 
