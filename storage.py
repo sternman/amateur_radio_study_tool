@@ -2,6 +2,7 @@ from azure.storage.blob import BlobServiceClient
 import json
 from datetime import datetime, time
 import pandas as pd
+import numpy as np
 
 class StorageManager:
     def __init__(self, connection_string):
@@ -19,14 +20,18 @@ class StorageManager:
         """Convert non-serializable types to serializable ones"""
         if isinstance(obj, (datetime, pd.Timestamp, time)):
             return obj.isoformat()
-        elif hasattr(obj, 'item'):  # numpy types
+        elif isinstance(obj, (pd.Series, pd.DataFrame)):  # Handle pandas objects
+            return obj.to_dict()
+        elif isinstance(obj, (list, tuple, np.ndarray)):  # Handle array-like objects
+            return [self._serialize_data(item) for item in obj]
+        elif hasattr(obj, 'dtype'):  # Handle numpy scalars
             return obj.item()
-        elif pd.isna(obj):  # pandas NA/NaN
+        elif pd.isna(obj):  # Handle pandas NA/NaN
             return None
         elif isinstance(obj, dict):
             return {k: self._serialize_data(v) for k, v in obj.items()}
-        elif isinstance(obj, list):
-            return [self._serialize_data(item) for item in obj]
+        elif hasattr(obj, '__dict__'):  # Handle custom objects
+            return str(obj)
         return obj
 
     def save_test_result(self, email, results):
