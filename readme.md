@@ -30,6 +30,14 @@ The "database" for this app is ham.xlsx. Python will read the contents into a pa
 
 Streamlit is used as the web wrapper. Also provides an easy way to make forms and visualizations for capturing and representing the captured data.
 
+UPDATE:
+
+I have modified the files to save to Azure blob storage as the streamlit deployment would overwrite or delete saved work. The share.streamlit.io hosting platform is limited in its deployment options. While an Azure blob storage account incurs costs, it will be extremely small for a project like this.
+
+Set a normal non ADLS gen 2 account, copy key 1 or 2 connection string and set that in your local `.env` file.
+
+```AZURE_STORAGE_CONNECTION_STRING=paste your connection string here```
+
 ## Usage:
 
 >Likely requires python 3.8 or later, written on python 3.10.8
