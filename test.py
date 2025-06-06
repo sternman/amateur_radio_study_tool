@@ -164,6 +164,9 @@ Good luck with your studies! 📡
         
         For more information about amateur radio licensing in Canada, visit the 
         [Innovation, Science and Economic Development Canada website](https://www.ic.gc.ca/eic/site/025.nsf/eng/home).
+        
+        Created by VA3 ECC
+            
         """)
 elif page == "Take Test":
     col1, col2, col4 = st.columns([5, 1, 3])
