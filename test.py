@@ -231,7 +231,7 @@ elif page == "Take Test":
         else:
             col4.metric("Score", "0%", delta="--", delta_color="off")
         
-        st.info(f"Section: {row['Section']} - {row['Section Name']} | Question: {row['question_id']}")
+        st.info(f"**{row['Section Name']} - {row['Section']}** | Question: {row['question_id']}")
         st.markdown(f"**{row['question_english']}**")
         
         # Replace the radio button and submission section with:
