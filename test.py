@@ -677,6 +677,9 @@ elif page == "Review History":
 elif page == "Study Guide":
     st.header("Study Guide")
     
+    # Add email input at the top
+    
+    
     with st.expander("Browse Questions", expanded=True):
         section = st.selectbox("Select Section", test["Section"].unique(), key="browse_section")
         groups = test[test["Section"] == section]["Group"].unique()
@@ -701,115 +704,100 @@ elif page == "Study Guide":
                         st.markdown(f"**Answer:** {row['correct_answer_english']}")
                         st.markdown("---")
     
+    # Only show practice areas if email is provided
+    
     with st.expander("Areas Needing Practice", expanded=True):
-        # Load test history
-        filename = "test_results.json"
-        if os.path.exists(filename):
-            with open(filename, "r") as f:
-                results = json.load(f)
-            
-            # Calculate performance stats
-            all_answers = [ans for res in results for ans in res['answers']]
-            if all_answers:
-                df_all = pd.DataFrame(all_answers)
-                stats = df_all.groupby(['section', 'group'])['is_correct'].agg([
-                    ('correct', 'sum'),
-                    ('total', 'count'),
-                    ('percent', lambda x: (x.mean() * 100).round(1))
-                ]).reset_index()
+        email = st.text_input("Enter your email to see personalized recommendations:", key="study_guide_email")
+        if email:
+            try:
+                # Load test history from storage
+                results = storage_mgr.get_test_results(email.lower().strip())
                 
-                # Add threshold selector
-                threshold = st.select_slider(
-                    "Show topics below score threshold:",
-                    options=[50, 70, 80],
-                    value=70
-                )
-                
-                # Filter areas needing practice
-                needs_practice = stats[stats['percent'] < threshold].sort_values(['section', 'group'])
-                if not needs_practice.empty:
-                    st.warning(f"Topics scoring below {threshold}%!")
-                    
-                    # Create section dropdown
-                    practice_sections = needs_practice['section'].unique()
-                    selected_practice_section = st.selectbox(
-                        "Select Section to Practice:", 
-                        practice_sections,
-                        key="practice_section"
-                    )
-                    
-                    # Filter groups for selected section
-                    section_groups = needs_practice[
-                        needs_practice['section'] == selected_practice_section
-                    ]['group'].unique()
-                    
-                    # Create group dropdown
-                    selected_practice_group = st.selectbox(
-                        "Select Group to Practice:",
-                        section_groups,
-                        key="practice_group"
-                    )
-                    
-                    # Show performance for selected section/group
-                    group_stats = needs_practice[
-                        (needs_practice['section'] == selected_practice_section) &
-                        (needs_practice['group'] == selected_practice_group)
-                    ].iloc[0]
-                    
-                    st.info(
-                        f"Current Performance for {selected_practice_section} - Group {selected_practice_group}: "
-                        f"{int(group_stats['correct'])}/{int(group_stats['total'])} "
-                        f"({group_stats['percent']}%)"
-                    )
-                    
-                    # Get and display questions for selected section/group
-                    practice_questions = test[
-                        (test['Section'] == selected_practice_section) &
-                        (test['Group'] == selected_practice_group)
-                    ].copy()  # Make a copy to avoid SettingWithCopyWarning
-                    
-                    if len(practice_questions) > 0:
-                        # Calculate performance for each question if it exists in history
-                        question_stats = df_all[
-                            (df_all['section'] == selected_practice_section) &
-                            (df_all['group'] == selected_practice_group)
-                        ].groupby('question').agg({
-                            'is_correct': ['count', 'mean']
-                        }).reset_index()
-                        question_stats.columns = ['question', 'attempts', 'success_rate']
+                if results:
+                    # Calculate performance stats
+                    all_answers = [ans for res in results for ans in res['answers']]
+                    if all_answers:
+                        df_all = pd.DataFrame(all_answers)
+                        stats = df_all.groupby(['section', 'group'])['is_correct'].agg([
+                            ('correct', 'sum'),
+                            ('total', 'count'),
+                            ('percent', lambda x: (x.mean() * 100).round(1))
+                        ]).reset_index()
                         
-                        st.markdown("### Practice Questions")
-                        for i in range(0, len(practice_questions), 3):
-                            cols = st.columns(3)
-                            for j in range(3):
-                                if i + j < len(practice_questions):
-                                    row = practice_questions.iloc(i + j)
-                                    with cols[j]:
-                                        # Get stats for this question if available
-                                        q_stats = question_stats[
-                                            question_stats['question'] == row['question_english']
-                                        ]
-                                        
-                                        performance = ""
-                                        if not q_stats.empty:
-                                            correct_rate = q_stats['success_rate'].iloc[0] * 100
-                                            attempts = int(q_stats['attempts'].iloc[0])
-                                            performance = f"\n\n*Performance: {correct_rate:.0f}% ({attempts} attempts)*"
-                                        
-                                        st.markdown(f"""
-                                        ---
-                                        **Question {row['question_id']}**
-                                        
-                                        {row['question_english']}
-                                        
-                                        **Answer:** {row['correct_answer_english']}{performance}
-                                        ---
-                                        """)
+                        # Add threshold selector
+                        threshold = st.select_slider(
+                            "Show topics below score threshold:",
+                            options=[50, 70, 80],
+                            value=70
+                        )
+                        
+                        # Filter areas needing practice
+                        needs_practice = stats[stats['percent'] < threshold].sort_values(['section', 'group'])
+                        if not needs_practice.empty:
+                            st.warning(f"Topics scoring below {threshold}%!")
+                            
+                            # Create section dropdown with scores
+                            practice_sections = needs_practice['section'].unique()
+                            section_options = [
+                                f"{section} ({needs_practice[needs_practice['section'] == section]['percent'].mean():.1f}%)"
+                                for section in practice_sections
+                            ]
+                            selected_practice_section_full = st.selectbox(
+                                "Select Section to Practice:", 
+                                section_options,
+                                key="practice_section"
+                            )
+                            selected_practice_section = practice_sections[section_options.index(selected_practice_section_full)]
+
+                            # Filter groups for selected section and create group dropdown with scores
+                            section_groups_df = needs_practice[needs_practice['section'] == selected_practice_section]
+                            section_groups = section_groups_df['group'].unique()
+                            group_options = [
+                                f"Group {group} ({section_groups_df[section_groups_df['group'] == group]['percent'].iloc[0]:.1f}%)"
+                                for group in section_groups
+                            ]
+                            selected_practice_group_full = st.selectbox(
+                                "Select Group to Practice:",
+                                group_options,
+                                key="practice_group"
+                            )
+                            selected_practice_group = section_groups[group_options.index(selected_practice_group_full)]
+                            
+                            # Show performance for selected section/group
+                            group_stats = needs_practice[
+                                (needs_practice['section'] == selected_practice_section) &
+                                (needs_practice['group'] == selected_practice_group)
+                            ].iloc[0]
+                            
+                            st.info(
+                                f"Current Performance for {selected_practice_section} - Group {selected_practice_group}: "
+                                f"{int(group_stats['correct'])}/{int(group_stats['total'])} "
+                                f"({group_stats['percent']}%)"
+                            )
+                            
+                            # Get and display questions for practice
+                            practice_questions = test[
+                                (test['Section'] == selected_practice_section) &
+                                (test['Group'] == int(selected_practice_group))
+                            ]
+                            
+                            if not practice_questions.empty:
+                                st.markdown("### Practice Questions")
+                                for _, q in practice_questions.iterrows():
+                                   
+                                    st.markdown(f"""
+                                    **Question:** {q['question_english']}  
+                                    **Answer:** {q['correct_answer_english']}
+                                    """)
+                            else:
+                                st.warning("No questions found for this section and group combination")
+                        else:
+                            st.success(f"No topics below {threshold}%!")
                     else:
-                        st.warning("No questions found for this section and group combination")
+                        st.info("No test history available for analysis.")
                 else:
-                    st.success(f"No topics below {threshold}%!")
-            else:
-                st.info("No test history available for analysis.")
+                    st.info(f"No test history found for {email}. Take some tests to see performance analysis.")
+            except Exception as e:
+                st.error(f"Error loading results: {str(e)}")
         else:
-            st.info("No test history found. Take some tests to see performance analysis.")
+            st.info("Enter your email above to see personalized practice recommendations based on your test history.")
