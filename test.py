@@ -146,6 +146,10 @@ The Basic qualification is the entry-level amateur radio operator certificate in
 You need to score at least 70% to pass, and 80% or higher grants you additional operating privileges (Honours).
 
 Good luck with your studies! 📡
+                
+73,
+VA3 ECC
+Jonathan Stern
 """)
 
     # Add contact/about section at the bottom
