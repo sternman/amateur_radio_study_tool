@@ -151,7 +151,7 @@ Good luck with your studies! 📡
 
 VA3 ECC
 
-Jonathan Stern
+Jonathan
 """)
 
     # Add contact/about section at the bottom
