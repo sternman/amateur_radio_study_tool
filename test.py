@@ -166,7 +166,7 @@ Good luck with your studies! 📡
         [Innovation, Science and Economic Development Canada website](https://www.ic.gc.ca/eic/site/025.nsf/eng/home).
         
         Created by VA3 ECC
-            
+        Created and used to pass with honours on 2025/06/03
         """)
 elif page == "Take Test":
     col1, col2, col4 = st.columns([5, 1, 3])
