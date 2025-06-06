@@ -47,7 +47,7 @@ study_guide, test, sections = read_excel()
 # st.write(study_guide)
 # st.write(test)
 # Streamlit page selection
-page = st.sidebar.radio("Go to", ["Take Test", "Review History", "Study Guide"])
+page = st.sidebar.radio("Go to", ["Home", "Take Test", "Review History", "Study Guide"])
 
 def get_question_pool(test_df):
     # For each section and group, pick one random question
@@ -100,7 +100,72 @@ def save_test_result(result, email):
         st.error(f"Error saving results: {str(e)}")
         return False
 
-if page == "Take Test":
+if page == "Home":
+    st.markdown("""
+## Welcome to the Amateur Radio Study Guide!
+
+This application helps you prepare for your Basic Amateur Radio License exam in Canada. Here's how to use each section:
+
+### 📝 Take Test
+- Simulates the actual exam environment
+- 100 questions selected from the question bank
+- Questions are randomly selected from all sections/groups
+- Immediate feedback on your answers
+- Save your results to track progress over time
+- Pass mark is 70%, Honours at 80%
+
+### 📊 Review History
+- View your test history and progress
+- See your performance trends over time
+- Analyze your strengths and weaknesses by section
+- Track which questions you've seen and which you haven't
+- Focus on areas that need improvement
+
+### 📚 Study Guide (under construction)
+- Browse all questions by section and group
+- Review specific topics
+- See correct answers for all questions
+- Practice areas where you need improvement
+
+### 📈 Features
+- Performance tracking across all attempts
+- Detailed analytics of your progress
+- Section-by-section breakdown
+- Question coverage analysis
+- Visual heatmap of your performance
+
+### 🎯 Getting Started
+1. Take a practice test to assess your current knowledge
+2. Review your results to identify weak areas
+3. Use the Study Guide to focus on those areas
+4. Track your progress in Review History
+5. Repeat until you consistently score above 70%
+
+### About Basic Amateur Radio License
+The Basic qualification is the entry-level amateur radio operator certificate in Canada. 
+You need to score at least 70% to pass, and 80% or higher grants you additional operating privileges (Honours).
+
+Good luck with your studies! 📡
+""")
+
+    # Add contact/about section at the bottom
+    st.markdown("---")
+    with st.expander("About This Project"):
+        st.markdown("""
+        This study tool was created to help amateur radio enthusiasts prepare for their Basic qualification exam. 
+        It uses the official Industry Canada question bank and simulates the actual exam environment.
+        
+        **Features:**
+        - Full question bank coverage
+        - Realistic exam simulation
+        - Progress tracking
+        - Performance analytics
+        - Focused study recommendations
+        
+        For more information about amateur radio licensing in Canada, visit the 
+        [Innovation, Science and Economic Development Canada website](https://www.ic.gc.ca/eic/site/025.nsf/eng/home).
+        """)
+elif page == "Take Test":
     col1, col2, col4 = st.columns([5, 1, 3])
     col1.header("Multiple Choice Test")
     if col4.button("Restart Test", key="restart_top"):
