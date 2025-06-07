@@ -178,143 +178,229 @@ Jonathan
 elif page == "Take Test":
     col1, col2, col4 = st.columns([5, 1, 3])
     col1.header("Multiple Choice Test")
-    if col4.button("Restart Test", key="restart_top"):
-        # Clear all session state keys
-        keys_to_delete = [k for k in st.session_state.keys() if k.startswith(("shuffled_options_", "submitted_", "answered_"))]
-        for k in keys_to_delete + ['question_pool', 'current_q', 'correct', 'incorrect', 'answers']:
-            if k in st.session_state:
-                del st.session_state[k]
-        st.rerun()
-
+    
+    # Initialize session state if needed
     if 'question_pool' not in st.session_state:
-        st.session_state.question_pool = get_question_pool(test)
+        st.session_state.question_pool = get_question_pool(test)  # Default to random test
         st.session_state.current_q = 0
         st.session_state.correct = 0
         st.session_state.incorrect = 0
         st.session_state.answers = []
+    
+    # Add personalized test options
+    with st.expander("Personalized Test Options", expanded=False):
+        email_for_test = st.text_input("Enter your email for a personalized test:", key="personalized_test_email")
+        if email_for_test:
+            test_type = st.radio(
+                "Choose your test type:",
+                ["New Questions Only", "Practice Weak Areas", "Standard Random Test"],
+                help="""
+                - New Questions Only: Questions you haven't seen before
+                - Practice Weak Areas: Questions you've scored < 70% on
+                - Standard Random Test: Random selection from all questions
+                """
+            )
+            
+            # Add Start Test button
+            if st.button("Start Personalized Test", key="start_personalized"):
+                st.session_state.current_q = 0
+                st.session_state.correct = 0
+                st.session_state.incorrect = 0
+                st.session_state.answers = []
+                
+                if test_type != "Standard Random Test":
+                    try:
+                        # Get user's history
+                        results = storage_mgr.get_test_results(email_for_test.lower().strip())
+                        if results:
+                            all_answers = [ans for res in results for ans in res['answers']]
+                            df_all = pd.DataFrame(all_answers) if all_answers else pd.DataFrame()
+                            
+                            if test_type == "New Questions Only":
+                                # Get questions user hasn't seen
+                                answered_questions = set(df_all['question'].unique()) if not df_all.empty else set()
+                                available_questions = test[~test['question_english'].isin(answered_questions)].copy()
+                                
+                                if len(available_questions) >= 100:
+                                    st.success(f"Found {len(available_questions)} unasked questions available!")
+                                    st.session_state.question_pool = get_question_pool(available_questions)
+                                else:
+                                    st.warning(f"Only {len(available_questions)} unasked questions available. Adding some random questions to complete the test.")
+                                    # Add random questions to make up the difference
+                                    additional_questions = test.sample(n=100-len(available_questions))
+                                    combined_questions = pd.concat([available_questions, additional_questions])
+                                    st.session_state.question_pool = get_question_pool(combined_questions)
+                            
+                            elif test_type == "Practice Weak Areas":
+                                if not df_all.empty:
+                                    # Calculate performance by question
+                                    question_stats = df_all.groupby('question')['is_correct'].agg(['mean', 'count']).reset_index()
+                                    weak_questions = question_stats[question_stats['mean'] < 0.7]['question']
+                                    
+                                    # Get questions user performed poorly on
+                                    weak_pool = test[test['question_english'].isin(weak_questions)].copy()
+                                    
+                                    if len(weak_pool) >= 50:
+                                        st.success(f"Found {len(weak_pool)} questions you can improve on!")
+                                        st.session_state.question_pool = get_question_pool(weak_pool)
+                                    else:
+                                        st.warning(f"Only {len(weak_pool)} questions found for practice. Adding some random questions to complete the test.")
+                                        # Add random questions to make up the difference
+                                        additional_questions = test.sample(n=100-len(weak_pool))
+                                        combined_questions = pd.concat([weak_pool, additional_questions])
+                                        st.session_state.question_pool = get_question_pool(combined_questions)
+                                else:
+                                    st.info("No test history found. Using standard random test.")
+                                    st.session_state.question_pool = get_question_pool(test)
+                        else:
+                            if test_type == "New Questions Only":
+                                st.success("No test history found - all questions will be new!")
+                            else:
+                                st.info("No test history found. Using standard random test.")
+                            st.session_state.question_pool = get_question_pool(test)
+                    except Exception as e:
+                        st.error(f"Error loading test history: {str(e)}")
+                        st.session_state.question_pool = get_question_pool(test)
+                else:
+                    st.session_state.question_pool = get_question_pool(test)
+                st.rerun()
+    
+    # Add Restart button for the main test
+    if col4.button("Restart Test", key="restart_top"):
+        for k in st.session_state.keys():
+            if k.startswith(("shuffled_options_", "submitted_", "answered_")):
+                del st.session_state[k]
+        st.session_state.question_pool = get_question_pool(test)  # Reset to random test
+        st.session_state.current_q = 0
+        st.session_state.correct = 0
+        st.session_state.incorrect = 0
+        st.session_state.answers = []
+        st.rerun()
 
-    pool = st.session_state.question_pool
-    q_idx = st.session_state.current_q
-    if q_idx < len(pool) and q_idx < 100:
-        row = pool.iloc[q_idx]
-        
-        # Create a key for storing shuffled options
-        options_key = f"shuffled_options_{q_idx}"
-        
-        # Only create and shuffle options if not already in session state
-        if options_key not in st.session_state:
-            options = [
-                row['correct_answer_english'],
-                row['incorrect_answer_1_english'],
-                row['incorrect_answer_2_english'],
-                row['incorrect_answer_3_english'],
-            ]
-            random.shuffle(options)
-            st.session_state[options_key] = options
-        
-        # Reorganize the question header and metrics
-        col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
-        col1.metric("Question", f"{q_idx+1}/{min(100, len(pool))}")
-        col2.metric("Correct", st.session_state.correct)
-        col3.metric("Incorrect", st.session_state.incorrect)
-        
-        # Calculate percentage if any questions have been answered
-        total_answered = st.session_state.correct + st.session_state.incorrect
-        if total_answered > 0:
-            percentage = round((st.session_state.correct / total_answered) * 100)
-            if percentage >= 80:
-                col4.metric("Score", f"{percentage}%", delta="Honours", delta_color="normal")
-            elif percentage >= 70:
-                col4.metric("Score", f"{percentage}%", delta="Pass", delta_color="normal")
+    # Show test interface (existing code)
+    if st.session_state.question_pool is not None:
+        pool = st.session_state.question_pool
+        q_idx = st.session_state.current_q
+        if q_idx < len(pool) and q_idx < 100:
+            row = pool.iloc[q_idx]
+            
+            # Create a key for storing shuffled options
+            options_key = f"shuffled_options_{q_idx}"
+            
+            # Only create and shuffle options if not already in session state
+            if options_key not in st.session_state:
+                options = [
+                    row['correct_answer_english'],
+                    row['incorrect_answer_1_english'],
+                    row['incorrect_answer_2_english'],
+                    row['incorrect_answer_3_english'],
+                ]
+                random.shuffle(options)
+                st.session_state[options_key] = options
+            
+            # Reorganize the question header and metrics
+            col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+            col1.metric("Question", f"{q_idx+1}/{min(100, len(pool))}")
+            col2.metric("Correct", st.session_state.correct)
+            col3.metric("Incorrect", st.session_state.incorrect)
+            
+            # Calculate percentage if any questions have been answered
+            total_answered = st.session_state.correct + st.session_state.incorrect
+            if total_answered > 0:
+                percentage = round((st.session_state.correct / total_answered) * 100)
+                if percentage >= 80:
+                    col4.metric("Score", f"{percentage}%", delta="Honours", delta_color="normal")
+                elif percentage >= 70:
+                    col4.metric("Score", f"{percentage}%", delta="Pass", delta_color="normal")
+                else:
+                    col4.metric("Score", f"{percentage}%", delta="Fail", delta_color="inverse")
             else:
-                col4.metric("Score", f"{percentage}%", delta="Fail", delta_color="inverse")
-        else:
-            col4.metric("Score", "0%", delta="--", delta_color="off")
-        
-        st.info(f"**{row['Section Name']} - {row['Section']}** | Question: {row['question_id']}")
-        st.markdown(f"**{row['question_english']}**")
-        
-        # Replace the radio button and submission section with:
-        submitted = st.session_state.get(f"submitted_{q_idx}", False)
-        
-        # Disable radio button if already submitted
-        answer = st.radio(
-            "Choose an answer:", 
-            st.session_state[options_key], 
-            key=q_idx,
-            disabled=submitted
-        )
-        
-        col1, col2 = st.columns([2, 5])  # Adjust ratio as needed
-        
-        # Only show Submit Answer if not yet submitted
-        if not submitted:
-            if col1.button("Submit Answer", key=f"submit_{q_idx}"):
-                st.session_state[f"submitted_{q_idx}"] = True
+                col4.metric("Score", "0%", delta="--", delta_color="off")
+            
+            st.info(f"**{row['Section Name']} - {row['Section']}** | Question: {row['question_id']}")
+            st.markdown(f"**{row['question_english']}**")
+            
+            # Replace the radio button and submission section with:
+            submitted = st.session_state.get(f"submitted_{q_idx}", False)
+            
+            # Disable radio button if already submitted
+            answer = st.radio(
+                "Choose an answer:", 
+                st.session_state[options_key], 
+                key=q_idx,
+                disabled=submitted
+            )
+            
+            col1, col2 = st.columns([2, 5])  # Adjust ratio as needed
+            
+            # Only show Submit Answer if not yet submitted
+            if not submitted:
+                if col1.button("Submit Answer", key=f"submit_{q_idx}"):
+                    st.session_state[f"submitted_{q_idx}"] = True
+                    is_correct = answer == row['correct_answer_english']
+                    if is_correct:
+                        st.success("✅ Correct!")
+                    else:
+                        st.error(f"❌ Incorrect. The correct answer is: {row['correct_answer_english']}")
+                    
+                    if f"answered_{q_idx}" not in st.session_state:
+                        st.session_state[f"answered_{q_idx}"] = True
+                        st.session_state.answers.append({
+                            "section": row['Section'],
+                            "group": row['Group'],
+                            "question": row['question_english'],
+                            "selected": answer,
+                            "correct": row['correct_answer_english'],
+                            "is_correct": is_correct
+                        })
+                        if is_correct:
+                            st.session_state.correct += 1
+                        else:
+                            st.session_state.incorrect += 1
+                    st.rerun()
+            else:
+                # Show the feedback and Next Question button
                 is_correct = answer == row['correct_answer_english']
                 if is_correct:
                     st.success("✅ Correct!")
                 else:
                     st.error(f"❌ Incorrect. The correct answer is: {row['correct_answer_english']}")
                 
-                if f"answered_{q_idx}" not in st.session_state:
-                    st.session_state[f"answered_{q_idx}"] = True
-                    st.session_state.answers.append({
-                        "section": row['Section'],
-                        "group": row['Group'],
-                        "question": row['question_english'],
-                        "selected": answer,
-                        "correct": row['correct_answer_english'],
-                        "is_correct": is_correct
-                    })
-                    if is_correct:
-                        st.session_state.correct += 1
-                    else:
-                        st.session_state.incorrect += 1
-                st.rerun()
+                if col2.button("Next Question", key=f"next_{q_idx}"):
+                    st.session_state.current_q += 1
+                    st.rerun()
         else:
-            # Show the feedback and Next Question button
-            is_correct = answer == row['correct_answer_english']
-            if is_correct:
-                st.success("✅ Correct!")
-            else:
-                st.error(f"❌ Incorrect. The correct answer is: {row['correct_answer_english']}")
+            # Show test completion section
+            total_questions = min(100, len(pool))
+            percentage = round((st.session_state.correct / total_questions) * 100)
             
-            if col2.button("Next Question", key=f"next_{q_idx}"):
-                st.session_state.current_q += 1
+            # Display results
+            st.success(f"Test complete! Score: {st.session_state.correct}/{total_questions} ({percentage}%)")
+            
+            col1, col2, col3 = st.columns([2, 1, 1])
+            
+            email = col1.text_input("Enter your email address to save results:", key="save_email")
+            
+            if col2.button("Save Test Results"):
+                if not email:
+                    st.error("Please enter an email address to save your results.")
+                else:
+                    result = {
+                        "timestamp": datetime.now().isoformat(),
+                        "score": st.session_state.correct,
+                        "total": total_questions,
+                        "answers": st.session_state.answers
+                    }
+                    if save_test_result(result, email):
+                        st.success("Test results saved successfully!")
+            
+            if col3.button("Restart Test"):
+                # Clear all session state keys
+                keys_to_delete = [k for k in st.session_state.keys() if k.startswith(("shuffled_options_", "submitted_", "answered_"))]
+                for k in keys_to_delete + ['question_pool', 'current_q', 'correct', 'incorrect', 'answers']:
+                    if k in st.session_state:
+                        del st.session_state[k]
                 st.rerun()
-    else:
-        # Show test completion section
-        total_questions = min(100, len(pool))
-        percentage = round((st.session_state.correct / total_questions) * 100)
-        
-        # Display results
-        st.success(f"Test complete! Score: {st.session_state.correct}/{total_questions} ({percentage}%)")
-        
-        col1, col2, col3 = st.columns([2, 1, 1])
-        
-        email = col1.text_input("Enter your email address to save results:", key="save_email")
-        
-        if col2.button("Save Test Results"):
-            if not email:
-                st.error("Please enter an email address to save your results.")
-            else:
-                result = {
-                    "timestamp": datetime.now().isoformat(),
-                    "score": st.session_state.correct,
-                    "total": total_questions,
-                    "answers": st.session_state.answers
-                }
-                if save_test_result(result, email):
-                    st.success("Test results saved successfully!")
-        
-        if col3.button("Restart Test"):
-            # Clear all session state keys
-            keys_to_delete = [k for k in st.session_state.keys() if k.startswith(("shuffled_options_", "submitted_", "answered_"))]
-            for k in keys_to_delete + ['question_pool', 'current_q', 'correct', 'incorrect', 'answers']:
-                if k in st.session_state:
-                    del st.session_state[k]
-            st.rerun()
 
 elif page == "Review History":
     st.header("Review History")
